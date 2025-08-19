@@ -108,6 +108,7 @@ class CPU:
         return (self.A << 8) | self.F
 
     def set_AF(self, value):
+        value &= 0xFFFF
         a = value >> 8
         f = value & 0xFF
         f &= 0xF0
@@ -118,6 +119,7 @@ class CPU:
         return (self.B << 8) | self.C
 
     def set_BC(self, value):
+        value &= 0xFFFF
         b = value >> 8
         c = value & 0xFF
         self.B = b
@@ -127,6 +129,7 @@ class CPU:
         return (self.D << 8) | self.E
 
     def set_DE(self, value):
+        value &= 0xFFFF
         d = value >> 8
         e = value & 0xFF
         self.D = d
@@ -136,6 +139,7 @@ class CPU:
         return (self.H << 8) | self.L
 
     def set_HL(self, value):
+        value &= 0xFFFF
         h = value >> 8
         l = value & 0xFF
         self.H = h
@@ -182,5 +186,28 @@ class CPU:
         else:
             raise ValueError("Invalid r8 index")
 
+    def r16(self, i):
+        if i == 0:
+            return self.get_BC()
+        elif i == 1:
+            return self.get_DE()
+        elif i == 2:
+            return self.get_HL()
+        elif i == 3:
+            return self.SP
+        else:
+            raise ValueError("Invalid r16 index")
 
+    def set_r16(self, i, value):
+        value &= 0xFFFF
+        if i == 0:
+            self.set_BC(value)
+        elif i == 1:
+            self.set_DE(value)
+        elif i == 2:
+            self.set_HL(value)
+        elif i == 3:
+            self.SP = value
+        else:
+            raise ValueError("Invalid r16 index")
 
