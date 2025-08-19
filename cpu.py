@@ -72,3 +72,5 @@ class CPU:
     def getflagZ(self):
         return (self.F >> 7) & 1
 
+    def getflagN(self):
+        return (self.F >> 6) & 1
