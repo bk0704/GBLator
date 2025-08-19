@@ -69,4 +69,6 @@ class CPU:
         self.PC &= 0xFFFF
         return bytes
 
+    def getflagZ(self):
+        return (self.F >> 7) & 1
 
