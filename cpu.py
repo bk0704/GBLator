@@ -161,6 +161,26 @@ class CPU:
         else:
             raise ValueError("Invalid r8 index")
 
+    def set_r8(self, i, value):
+        value = value & 0xFF
+        if i == 0:
+            self.B = value
+        elif i == 1:
+            self.C = value
+        elif i == 2:
+            self.D = value
+        elif i == 3:
+            self.E = value
+        elif i == 4:
+            self.H = value
+        elif i == 5:
+            self.L = value
+        elif i == 6:
+            self.bus.write8(self.get_HL(), value)
+        elif i == 7:
+            self.A = value
+        else:
+            raise ValueError("Invalid r8 index")
 
 
 

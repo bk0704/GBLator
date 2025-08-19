@@ -62,3 +62,13 @@ bus.write8(0xC000, 0x77)
 assert cpu.r8(0) == 0x12    # B
 assert cpu.r8(1) == 0x34    # C
 assert cpu.r8(6) == 0x77    # (HL)
+
+cpu.set_r8(0, 0x12)   # B
+assert cpu.B == 0x12
+
+cpu.set_r8(7, 0xAB)   # A
+assert cpu.A == 0xAB
+
+cpu.set_HL(0xC000)
+cpu.set_r8(6, 0x77)   # (HL)
+assert bus.read8(0xC000) == 0x77
