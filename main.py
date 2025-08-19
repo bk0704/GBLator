@@ -24,11 +24,11 @@ cpu.PC = 0xFFFF
 b3 = cpu.fetch16()
 print(hex(b3), hex(cpu.PC)) # expect 0x99, 0x0000
 
-cpu.F = 0b00100000   # only bit7 set
-print(cpu.get_flagH())  # expect 1
+cpu.F = 0b00010000   # only bit7 set
+print(cpu.get_flagZ())  # expect 1
 
 cpu.F = 0b00000000   # all clear
-print(cpu.get_flagH())  # expect 0
+print(cpu.get_flagZ())  # expect 0
 
 cpu.F = 0b10000000   # bit6 set, not bit7
-print(cpu.get_flagH())  # expect 0
+print(cpu.get_flagZ())  # expect 0

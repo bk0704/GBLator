@@ -80,3 +80,7 @@ class CPU:
     def get_flagH(self):
         # Get the half carry flag
         return (self.F >> 5) & 1
+
+    def get_flagC(self):
+        # Get the half carry flag
+        return (self.F >> 4) & 1
