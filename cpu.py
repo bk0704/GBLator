@@ -1,5 +1,11 @@
 # Emulate LR35902 CPU state and lifecycle
 
+FLAG_Z = 0x80  # bit 7
+FLAG_N = 0x40  # bit 6
+FLAG_H = 0x20  # bit 5
+FLAG_C = 0x10  # bit 4
+
+
 class CPU:
     def __init__(self, bus):
         self.bus = bus # the thing with read8/write8
@@ -56,31 +62,51 @@ class CPU:
     def fetch8(self):
         # Read by from memory at PC, advances PC by 1 with 16-bit Wrap
         byte = self.bus.read8(self.PC)
-        self.PC += 1
-        self.PC &= 0xFFFF
+        self.PC = (self.PC + 1) & 0xFFFF
         return byte
 
     def fetch16(self):
-        # Read by from memory at PC, advances PC by 1 with 16-bit Wrap
-        high_byte = self.bus.read8(self.PC + 1)
+        # Read little-endian 16-bit at PC (low, then high), advance PC by 2 (16-bit wrap)
         low_byte = self.bus.read8(self.PC)
+        high_byte = self.bus.read8(self.PC + 1 & 0xFFFF)
         bytes = (high_byte << 8) | low_byte
         self.PC += 2
         self.PC &= 0xFFFF
         return bytes
 
     def get_flagZ(self):
-        # Get the zero flag
         return (self.F >> 7) & 1
 
     def get_flagN(self):
-        # Get The subtraction flag
         return (self.F >> 6) & 1
 
     def get_flagH(self):
-        # Get the half carry flag
         return (self.F >> 5) & 1
 
     def get_flagC(self):
-        # Get the half carry flag
         return (self.F >> 4) & 1
+
+    def set_flags(self, z=None, n=None, h=None, c=None):
+        f = self.F
+
+        M = 0
+        if z is not None: M |= FLAG_Z
+        if n is not None: M |= FLAG_N
+        if h is not None: M |= FLAG_H
+        if c is not None: M |= FLAG_C
+
+        V = 0
+        if z: V |= FLAG_Z
+        if n: V |= FLAG_N
+        if h: V |= FLAG_H
+        if c: V |= FLAG_C
+
+        f = (f & ~M) | V
+        self.F = f & 0xF0  # low nibble always 0
+
+    def get_AF(self):
+        return self.A | (self.F & 0xF0)
+
+
+
+
