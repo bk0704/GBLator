@@ -32,3 +32,7 @@ print("N:", cpu.get_flagN())  # expect 0
 print("H:", cpu.get_flagH())  # expect 1
 print("C:", cpu.get_flagC())  # expect 0
 
+
+print("\n=== Test AF ===")
+cpu.set_AF(0xFFFF)
+print(f"AF: {hex(cpu.get_AF())}")

@@ -105,7 +105,15 @@ class CPU:
         self.F = f & 0xF0  # low nibble always 0
 
     def get_AF(self):
-        return self.A | (self.F & 0xF0)
+        return (self.A << 8) | self.F
+
+    def set_AF(self, value):
+        a = value >> 8
+        f = value & 0xFF
+        f &= 0xF0
+        self.A = a
+        self.F = f
+
 
 
 
