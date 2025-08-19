@@ -114,6 +114,24 @@ class CPU:
         self.A = a
         self.F = f
 
+    def get_BC(self):
+        return (self.B << 8) | self.C
+
+    def set_BC(self, value):
+        b = value >> 8
+        c = value & 0xFF
+        self.B = b
+        self.C = c
+
+    def get_DE(self):
+        return (self.D << 8) | self.E
+
+    def set_DE(self, value):
+        d = value >> 8
+        e = value & 0xFF
+        self.D = d
+        self.E = e
+
 
 
 

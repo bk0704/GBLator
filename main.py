@@ -36,3 +36,15 @@ print("C:", cpu.get_flagC())  # expect 0
 print("\n=== Test AF ===")
 cpu.set_AF(0xFFFF)
 print(f"AF: {hex(cpu.get_AF())}")
+
+print("\n=== Test BC ===")
+cpu.set_BC(0x1234)
+print(f"B: {hex(cpu.B)}")
+print(f"C: {hex(cpu.C)}")
+print(f"BC: {hex(cpu.get_BC())}")
+
+print("\n=== Test DE ===")
+cpu.set_DE(0xABCD)
+print(f"B: {hex(cpu.D)}")
+print(f"C: {hex(cpu.E)}")
+print(f"BC: {hex(cpu.get_DE())}")
