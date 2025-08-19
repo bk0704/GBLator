@@ -69,8 +69,14 @@ class CPU:
         self.PC &= 0xFFFF
         return bytes
 
-    def getflagZ(self):
+    def get_flagZ(self):
+        # Get the zero flag
         return (self.F >> 7) & 1
 
-    def getflagN(self):
+    def get_flagN(self):
+        # Get The subtraction flag
         return (self.F >> 6) & 1
+
+    def get_flagH(self):
+        # Get the half carry flag
+        return (self.F >> 5) & 1
