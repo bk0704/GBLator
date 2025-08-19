@@ -132,6 +132,34 @@ class CPU:
         self.D = d
         self.E = e
 
+    def get_HL(self):
+        return (self.H << 8) | self.L
+
+    def set_HL(self, value):
+        h = value >> 8
+        l = value & 0xFF
+        self.H = h
+        self.L = l
+
+    def r8(self, i):
+        if i == 0:
+            return self.B
+        elif i == 1:
+            return self.C
+        elif i == 2:
+            return self.D
+        elif i == 3:
+            return self.E
+        elif i == 4:
+            return self.H
+        elif i == 5:
+            return self.L
+        elif i == 6:
+            return self.bus.read8(self.get_HL())
+        elif i == 7:
+            return self.A
+        else:
+            raise ValueError("Invalid r8 index")
 
 
 

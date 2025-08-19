@@ -45,6 +45,20 @@ print(f"BC: {hex(cpu.get_BC())}")
 
 print("\n=== Test DE ===")
 cpu.set_DE(0xABCD)
-print(f"B: {hex(cpu.D)}")
-print(f"C: {hex(cpu.E)}")
-print(f"BC: {hex(cpu.get_DE())}")
+print(f"D: {hex(cpu.D)}")
+print(f"E: {hex(cpu.E)}")
+print(f"DE: {hex(cpu.get_DE())}")
+
+print("\n=== Test HL ===")
+cpu.set_HL(0x8001)
+print(f"H: {hex(cpu.H)}")
+print(f"L: {hex(cpu.L)}")
+print(f"HL: {hex(cpu.get_HL())}")
+
+cpu.set_BC(0x1234); cpu.set_DE(0xABCD); cpu.set_HL(0xC000); cpu.SP=0xFFFE
+bus.write8(0xC000, 0x77)
+
+# r8 reads
+assert cpu.r8(0) == 0x12    # B
+assert cpu.r8(1) == 0x34    # C
+assert cpu.r8(6) == 0x77    # (HL)
