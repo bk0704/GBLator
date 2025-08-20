@@ -38,3 +38,24 @@ def ld_l_n8(cpu):
     # LD L, n8
     value = cpu.fetch8()
     cpu.L = value
+
+
+# LD B, r8
+
+def ld_b_b(cpu):
+    return
+
+def ld_b_c(cpu):
+    cpu.B = cpu.C
+
+def ld_b_d(cpu):
+    cpu.B = cpu.D
+
+def ld_b_e(cpu):
+    cpu.B = cpu.E
+
+def ld_b_h(cpu):
+    cpu.B = cpu.H
+
+def ld_b_l(cpu):
+    cpu.B = cpu.L
