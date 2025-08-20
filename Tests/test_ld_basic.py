@@ -53,6 +53,30 @@ def main():
 
     ROM += ld_b_r_opcodes
 
+    ld_c_r_opcodes = []
+    for opc in (0x48, 0x49, 0x4A, 0x4B, 0x4C, 0x4D, 0x4F):
+        entry = base_ops[opc]
+        if entry is not None and entry.get("handler"):
+            ld_c_r_opcodes.append(opc)
+
+    ROM += ld_c_r_opcodes
+
+    ld_d_r_opcodes = []
+    for opc in (0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x57):
+        entry = base_ops[opc]
+        if entry is not None and entry.get("handler"):
+            ld_d_r_opcodes.append(opc)
+
+    ROM += ld_d_r_opcodes
+
+    ld_e_r_opcodes = []
+    for opc in (0x58, 0x59, 0x5A, 0x5B, 0x5C, 0x5D, 0x5F):
+        entry = base_ops[opc]
+        if entry is not None and entry.get("handler"):
+            ld_e_r_opcodes.append(opc)
+
+    ROM += ld_e_r_opcodes
+
     # Load ROM at 0x0100
     base_addr = 0x0100
     for i, byte in enumerate(ROM):
@@ -136,10 +160,76 @@ def main():
         elif opc == 0x45:  # LD B,L
             expect("B after LD B,L", c.B, 0x66)
 
+    for opc in ld_c_r_opcodes:
+        before_pc = c.PC
+        c.step()
+        expect(f"PC after LD C,? opcode {hex(opc)}", c.PC, (before_pc + 1) & 0xFFFF)
+        expect("last_instr_cycles for LD C,?", c.last_instr_cycles, 4)
+
+        if opc == 0x48:  # LD C,B
+            expect("C after LD C,B", c.C, c.B)
+        elif opc == 0x49:  # LD C,C (no change)
+            expect("C after LD C,C", c.C, c.C)
+        elif opc == 0x4A:  # LD C,D
+            expect("C after LD C,D", c.C, 0x33)
+        elif opc == 0x4B:  # LD C,E
+            expect("C after LD C,E", c.C, 0x44)
+        elif opc == 0x4C:  # LD C,H
+            expect("C after LD C,H", c.C, 0x55)
+        elif opc == 0x4D:  # LD C,L
+            expect("C after LD C,L", c.C, 0x66)
+        elif opc == 0x4F:
+            expect("C after LD C,A", c.C, 0x42)
+
+    for opc in ld_d_r_opcodes:
+        before_pc = c.PC
+        c.step()
+        expect(f"PC after LD D,? opcode {hex(opc)}", c.PC, (before_pc + 1) & 0xFFFF)
+        expect("last_instr_cycles for LD D,?", c.last_instr_cycles, 4)
+
+        if opc == 0x50:
+            expect("D after LD D,B", c.D, 0x66)
+        elif opc == 0x51:
+            expect("D after LD D,C", c.D, c.C)
+        elif opc == 0x52:  # LD D,D (no change)
+            expect("D after LD D,D", c.D, c.D)
+        elif opc == 0x53:
+            expect("D after LD D,E", c.D, c.E)
+        elif opc == 0x54:
+            expect("D after LD D,H", c.D, c.H)
+        elif opc == 0x55:
+            expect("D after LD D,L", c.D, c.L)
+        elif opc == 0x57:
+            expect("D after LD D,A", c.D, c.A)
+
+    for opc in ld_e_r_opcodes:
+        before_pc = c.PC
+        c.step()
+        expect(f"PC after LD E,? opcode {hex(opc)}", c.PC, (before_pc + 1) & 0xFFFF)
+        expect("last_instr_cycles for LD E,?", c.last_instr_cycles, 4)
+
+        if opc == 0x58:
+            expect("E after LD E,B", c.E, c.B)
+        elif opc == 0x59:
+            expect("E after LD E,C", c.E, c.C)
+        elif opc == 0x5A:
+            expect("E after LD E,D", c.E, c.D)
+        elif opc == 0x5B:
+            expect("E after LD E,E", c.E, c.E)
+        elif opc == 0x5C:
+            expect("E after LD E,H", c.E, c.H)
+        elif opc == 0x5D:
+            expect("E after LD E,L", c.E, c.L)
+        elif opc == 0x5F:
+            expect("E after LD E,A", c.E, c.A)
+
+
+
+
     # Final cycles check
     expect("final cycles_total",
            c.cycles_total,
-           base_cycles + 4 * len(ld_b_r_opcodes))
+           base_cycles + 4 * (len(ld_b_r_opcodes) + len(ld_c_r_opcodes) + len(ld_d_r_opcodes) + len(ld_e_r_opcodes)))
 
     print("\nAll tests for current opcodes passed ✅")
 

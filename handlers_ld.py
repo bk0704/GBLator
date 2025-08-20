@@ -59,3 +59,61 @@ def ld_b_h(cpu):
 
 def ld_b_l(cpu):
     cpu.B = cpu.L
+
+def ld_b_a(cpu):
+    cpu.B = cpu.A
+
+# LD C, r8
+def ld_c_b(cpu):
+    cpu.C = cpu.B
+
+def ld_c_c(cpu):
+    return
+
+def ld_c_d(cpu):
+    cpu.C = cpu.D
+
+def ld_c_e(cpu):
+    cpu.C = cpu.E
+
+def ld_c_h(cpu):
+    cpu.C = cpu.H
+
+def ld_c_l(cpu):
+    cpu.C = cpu.L
+
+def ld_c_a(cpu):
+    cpu.C = cpu.A
+
+# LD D, r8
+
+def ld_d_b(cpu):
+    cpu.D = cpu.B
+def ld_d_c(cpu):
+    cpu.D = cpu.C
+def ld_d_d(cpu):
+    return
+def ld_d_e(cpu):
+    cpu.D = cpu.E
+def ld_d_h(cpu):
+    cpu.D = cpu.H
+def ld_d_l(cpu):
+    cpu.D = cpu.L
+def ld_d_a(cpu):
+    cpu.D = cpu.A
+
+# LD E, r8
+def ld_e_b(cpu):
+    cpu.E = cpu.B
+def ld_e_c(cpu):
+    cpu.E = cpu.C
+def ld_e_d(cpu):
+    cpu.E = cpu.D
+def ld_e_e(cpu):
+    return
+def ld_e_h(cpu):
+    cpu.E = cpu.H
+def ld_e_l(cpu):
+    cpu.E = cpu.L
+def ld_e_a(cpu):
+    cpu.E = cpu.A
