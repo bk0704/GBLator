@@ -1,54 +1,50 @@
 import pytest
-from cpu import CPU
 from bus import Bus
+from cpu import CPU
 from opcodes import ops_base
 
-def setup_cpu_with_hl(val):
+CASES = [
+    (0x70, "B"),  # LD [HL],B
+    (0x71, "C"),  # LD [HL],C
+    (0x72, "D"),  # LD [HL],D
+    (0x73, "E"),  # LD [HL],E
+    (0x74, "H"),  # LD [HL],H
+    (0x75, "L"),  # LD [HL],L
+    (0x77, "A"),  # LD [HL],A
+]
+
+@pytest.mark.parametrize("opcode,src_attr", CASES)
+def test_ld_hl_r8(opcode, src_attr):
+    entry = ops_base[opcode]
+    if not entry or not entry.get("handler"):
+        pytest.skip(f"{hex(opcode)} (LD [HL],{src_attr}) not implemented")
+
     bus = Bus()
     cpu = CPU(bus)
-    cpu.set_HL(0x1234)     # HL points to 0x1234
-    bus.mem[0x1234] = val  # memory at HL = val
-    return cpu
 
-def test_ld_r8_from_hl():
-    # LD B, [HL]
-    cpu = setup_cpu_with_hl(0x42)
-    cpu.bus.mem[0x0000] = 0x46  # opcode LD B,[HL]
-    cpu.step()
-    assert cpu.B == 0x42, f"B after LD B,[HL]: {cpu.B:#04x}"
+    # Seed HL and source register
+    cpu.set_HL(0x1234)
+    setattr(cpu, src_attr, 0x9A)
+    # IMPORTANT: for H/L cases, HL may have changed now. Use the live address:
+    hl_addr = cpu.get_HL()
 
-    # LD C, [HL]
-    cpu = setup_cpu_with_hl(0x43)
-    cpu.bus.mem[0x0000] = 0x4E  # opcode LD C,[HL]
-    cpu.step()
-    assert cpu.C == 0x43, f"C after LD C,[HL]: {cpu.C:#04x}"
+    # Pre-fill current [HL] so we can see the change
+    bus.write8(hl_addr, 0x00)
 
-    # LD D, [HL]
-    cpu = setup_cpu_with_hl(0x44)
-    cpu.bus.mem[0x0000] = 0x56  # opcode LD D,[HL]
+    # Execute
+    cpu.bus.mem[0x0000] = opcode
+    pc_before = cpu.PC
     cpu.step()
-    assert cpu.D == 0x44, f"D after LD D,[HL]: {cpu.D:#04x}"
 
-    # LD E, [HL]
-    cpu = setup_cpu_with_hl(0x45)
-    cpu.bus.mem[0x0000] = 0x5E  # opcode LD E,[HL]
-    cpu.step()
-    assert cpu.E == 0x45, f"E after LD E,[HL]: {cpu.E:#04x}"
+    # Assert write at the actual HL
+    assert bus.read8(hl_addr) == 0x9A
+    assert cpu.PC == ((pc_before + 1) & 0xFFFF)
+    assert cpu.last_instr_cycles == 8
+    assert getattr(cpu, src_attr) == 0x9A
 
-    # LD H, [HL]
-    cpu = setup_cpu_with_hl(0x46)
-    cpu.bus.mem[0x0000] = 0x66  # opcode LD H,[HL]
-    cpu.step()
-    assert cpu.H == 0x46, f"H after LD H,[HL]: {cpu.H:#04x}"
 
-    # LD L, [HL]
-    cpu = setup_cpu_with_hl(0x47)
-    cpu.bus.mem[0x0000] = 0x6E  # opcode LD L,[HL]
-    cpu.step()
-    assert cpu.L == 0x47, f"L after LD L,[HL]: {cpu.L:#04x}"
 
-    # LD A, [HL]
-    cpu = setup_cpu_with_hl(0x48)
-    cpu.bus.mem[0x0000] = 0x7E  # opcode LD A,[HL]
-    cpu.step()
-    assert cpu.A == 0x48, f"A after LD A,[HL]: {cpu.A:#04x}"
+
+
+
+

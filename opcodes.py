@@ -6,7 +6,8 @@ from handlers_ld import (nop, ld_a_n8, ld_b_n8, ld_c_n8, ld_d_n8, ld_e_n8, ld_h_
                          ld_h_b, ld_h_c, ld_h_d, ld_h_e, ld_h_h, ld_h_l, ld_h_a,
                          ld_l_b, ld_l_c, ld_l_d, ld_l_e, ld_l_h, ld_l_l, ld_l_a,
                          ld_a_b, ld_a_c, ld_a_d, ld_a_e, ld_a_h, ld_a_l, ld_a_a,
-                         ld_b_hl, ld_c_hl, ld_d_hl, ld_e_hl, ld_h_hl, ld_l_hl, ld_a_hl)
+                         ld_b_hl, ld_c_hl, ld_d_hl, ld_e_hl, ld_h_hl, ld_l_hl, ld_a_hl,
+                         ld_hl_b, ld_hl_c, ld_hl_d, ld_hl_e, ld_hl_h, ld_hl_l, ld_hl_a)
 
 ops_base = [None] * 0x100
 
@@ -94,4 +95,11 @@ ops_base[0x66] = {"mnemonic": "LD H,[HL]", "handler": ld_h_hl, "length": 1, "cyc
 ops_base[0x6E] = {"mnemonic": "LD L,[HL]", "handler": ld_l_hl, "length": 1, "cycles": 8,}
 ops_base[0x7E] = {"mnemonic": "LD A,[HL]", "handler": ld_a_hl, "length": 1, "cycles": 8,}
 
-
+# LD [HL], r8
+ops_base[0x70] = {"mnemonic": "LD [HL],B", "handler": ld_hl_b, "length": 1, "cycles": 8}
+ops_base[0x71] = {"mnemonic": "LD [HL],C", "handler": ld_hl_c, "length": 1, "cycles": 8}
+ops_base[0x72] = {"mnemonic": "LD [HL],D", "handler": ld_hl_d, "length": 1, "cycles": 8}
+ops_base[0x73] = {"mnemonic": "LD [HL],E", "handler": ld_hl_e, "length": 1, "cycles": 8}
+ops_base[0x74] = {"mnemonic": "LD [HL],H", "handler": ld_hl_h, "length": 1, "cycles": 8}
+ops_base[0x75] = {"mnemonic": "LD [HL],L", "handler": ld_hl_l, "length": 1, "cycles": 8}
+ops_base[0x77] = {"mnemonic": "LD [HL],A", "handler": ld_hl_a, "length": 1, "cycles": 8}

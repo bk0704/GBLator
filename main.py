@@ -72,3 +72,10 @@ assert cpu.A == 0xAB
 cpu.set_HL(0xC000)
 cpu.set_r8(6, 0x77)   # (HL)
 assert bus.read8(0xC000) == 0x77
+
+
+from opcodes import ops_base
+
+print("DBG 0x70 handler:", ops_base[0x70]["handler"].__name__)
+print("DBG 0x74 handler:", ops_base[0x74]["handler"].__name__)
+print("DBG 0x75 handler:", ops_base[0x75]["handler"].__name__)

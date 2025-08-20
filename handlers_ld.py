@@ -181,3 +181,19 @@ def ld_l_hl(cpu):
     cpu.L = cpu.bus.read8(cpu.get_HL())
 def ld_a_hl(cpu):
     cpu.A = cpu.bus.read8(cpu.get_HL())
+
+# LD [HL], r8
+def ld_hl_b(cpu):
+    cpu.bus.write8(cpu.get_HL(), cpu.B & 0xFF)
+def ld_hl_c(cpu):
+    cpu.bus.write8(cpu.get_HL(), cpu.C & 0xFF)
+def ld_hl_d(cpu):
+    cpu.bus.write8(cpu.get_HL(), cpu.D & 0xFF)
+def ld_hl_e(cpu):
+    cpu.bus.write8(cpu.get_HL(), cpu.E & 0xFF)
+def ld_hl_h(cpu):
+    cpu.bus.write8(cpu.get_HL(), cpu.H & 0xFF)
+def ld_hl_l(cpu):
+    cpu.bus.write8(cpu.get_HL(), cpu.L & 0xFF)
+def ld_hl_a(cpu):
+    cpu.bus.write8(cpu.get_HL(), cpu.A & 0xFF)
