@@ -1,5 +1,7 @@
 # Emulate LR35902 CPU state and lifecycle
 
+import opcodes
+
 FLAG_Z = 0x80  # bit 7
 FLAG_N = 0x40  # bit 6
 FLAG_H = 0x20  # bit 5
@@ -211,3 +213,17 @@ class CPU:
         else:
             raise ValueError("Invalid r16 index")
 
+    def step(self):
+        op = self.fetch8()
+        entry = opcodes.ops_base[op]
+        handler = entry["handler"]
+        if entry == None or handler == None:
+            self.last_instr_cycles = 0
+        pc_before = self.PC
+        handler(self)
+        if self.PC == pc_before:
+            self.PC += entry["length"] - 1
+            self.PC &= 0xFFFF
+        cycles = entry["cycles"]
+        self.last_instr_cycles = cycles
+        self.cycles_total += cycles
