@@ -133,3 +133,19 @@ def ld_h_l(cpu):
     cpu.H = cpu.L
 def ld_h_a(cpu):
     cpu.H = cpu.A
+
+# LD L, r8
+def ld_l_b(cpu):
+    cpu.L = cpu.B
+def ld_l_c(cpu):
+    cpu.L = cpu.C
+def ld_l_d(cpu):
+    cpu.L = cpu.D
+def ld_l_e(cpu):
+    cpu.L = cpu.E
+def ld_l_h(cpu):
+    cpu.L = cpu.H
+def ld_l_l(cpu):
+    return
+def ld_l_a(cpu):
+    cpu.L = cpu.A
