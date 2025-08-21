@@ -214,3 +214,8 @@ def ld_hl_n16(cpu):
 def ld_sp_n16(cpu):
     value = cpu.fetch16()
     cpu.SP = value
+
+# LD [HL], n8
+def ld_hl_n8(cpu):
+    value = cpu.fetch8()
+    cpu.bus.write8(cpu.get_HL(), value & 0xFF)

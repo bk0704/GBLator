@@ -8,7 +8,7 @@ from handlers_ld import (nop, ld_a_n8, ld_b_n8, ld_c_n8, ld_d_n8, ld_e_n8, ld_h_
                          ld_a_b, ld_a_c, ld_a_d, ld_a_e, ld_a_h, ld_a_l, ld_a_a,
                          ld_b_hl, ld_c_hl, ld_d_hl, ld_e_hl, ld_h_hl, ld_l_hl, ld_a_hl,
                          ld_hl_b, ld_hl_c, ld_hl_d, ld_hl_e, ld_hl_h, ld_hl_l, ld_hl_a,
-                         ld_bc_n16, ld_de_n16, ld_hl_n16, ld_sp_n16)
+                         ld_bc_n16, ld_de_n16, ld_hl_n16, ld_sp_n16, ld_hl_n8)
 
 ops_base = [None] * 0x100
 
@@ -111,4 +111,5 @@ ops_base[0x11] = {"mnemonic": "LD DE,n16", "handler": ld_de_n16, "length": 3, "c
 ops_base[0x21] = {"mnemonic": "LD HL,n16", "handler": ld_hl_n16, "length": 3, "cycles": 12,}
 ops_base[0x31] = {"mnemonic": "LD SP,n16", "handler": ld_sp_n16, "length": 3, "cycles": 12,}
 
-
+# LD [HL], n8
+ops_base[0x36] = {"mnemonic": "LD [HL],n8", "handler": ld_hl_n8, "length": 2, "cycles": 12,}
