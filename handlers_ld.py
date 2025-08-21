@@ -197,3 +197,20 @@ def ld_hl_l(cpu):
     cpu.bus.write8(cpu.get_HL(), cpu.L & 0xFF)
 def ld_hl_a(cpu):
     cpu.bus.write8(cpu.get_HL(), cpu.A & 0xFF)
+
+# LD r16, n16
+def ld_bc_n16(cpu):
+    value = cpu.fetch16()
+    cpu.set_BC(value)
+
+def ld_de_n16(cpu):
+    value = cpu.fetch16()
+    cpu.set_DE(value)
+
+def ld_hl_n16(cpu):
+    value = cpu.fetch16()
+    cpu.set_HL(value)
+
+def ld_sp_n16(cpu):
+    value = cpu.fetch16()
+    cpu.SP = value
