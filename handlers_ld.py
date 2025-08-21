@@ -219,3 +219,45 @@ def ld_sp_n16(cpu):
 def ld_hl_n8(cpu):
     value = cpu.fetch8()
     cpu.bus.write8(cpu.get_HL(), value & 0xFF)
+
+# LD [r16], A
+def ld_bc_a(cpu):
+    cpu.bus.write8(cpu.get_BC(), cpu.A & 0xFF)
+
+def ld_de_a(cpu):
+    cpu.bus.write8(cpu.get_DE(), cpu.A & 0xFF)
+
+# LD A, [r16]
+def ld_a_bc(cpu):
+    cpu.A = cpu.bus.read8(cpu.get_BC())
+
+def ld_a_de(cpu):
+    cpu.A = cpu.bus.read8(cpu.get_DE())
+
+# LD [HL+/-], A
+def ld_hl_plus_a(cpu):
+    addr = cpu.get_HL()
+    cpu.bus.write8(addr, cpu.A & 0xFF)
+    cpu.set_HL(cpu.get_HL() + 1)
+
+def ld_hl_minus_a(cpu):
+    addr = cpu.get_HL()
+    cpu.bus.write8(addr, cpu.A & 0xFF)
+    cpu.set_HL(cpu.get_HL() - 1)
+
+# LD A, [HL+/-]
+def ld_a_hl_plus(cpu):
+    cpu.A = cpu.bus.read8(cpu.get_HL())
+    cpu.set_HL(cpu.get_HL() + 1)
+
+def ld_a_hl_minus(cpu):
+    cpu.A = cpu.bus.read8(cpu.get_HL())
+    cpu.set_HL(cpu.get_HL() - 1)
+
+
+
+
+
+
+
+
