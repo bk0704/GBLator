@@ -254,8 +254,35 @@ def ld_a_hl_minus(cpu):
     cpu.A = cpu.bus.read8(cpu.get_HL())
     cpu.set_HL(cpu.get_HL() - 1)
 
+# LD/H [n16], A
+def ld_n16_a(cpu):
+    addr = cpu.fetch16()
+    cpu.bus.write8(addr, cpu.A)
 
+def ldh_n16_a(cpu):
+    offset = cpu.fetch8()
+    addr = 0xFF00 + offset
+    cpu.bus.write8(addr, cpu.A)
 
+# LD/H A, [n16]
+def ld_a_n16(cpu):
+    addr = cpu.fetch16()
+    cpu.A = cpu.bus.read8(addr)
+
+def ldh_a_n16(cpu):
+    offset = cpu.fetch8()
+    addr = 0xFF00 + offset
+    cpu.A = cpu.bus.read8(addr)
+
+# LDH (C), A
+def ldh_c_a(cpu):
+    offset = cpu.C
+    addr = 0xFF00 + cpu.C
+    cpu.bus.write8(addr, cpu.A)
+
+def ldh_a_c(cpu):
+    addr = 0xFF00 + cpu.C
+    cpu.A = cpu.bus.read8(addr)
 
 
 
