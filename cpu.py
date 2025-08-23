@@ -213,6 +213,11 @@ class CPU:
         else:
             raise ValueError("Invalid r16 index")
 
+    def fetch_e8(self):
+        # Fetch the next byte and interpret it as a signed 8-bit immediate
+        imm = self.fetch8()
+        return imm - 0x100 if imm & 0x80 else imm
+
     def step(self):
         op = self.fetch8()
         entry = opcodes.ops_base[op]
