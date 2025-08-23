@@ -145,5 +145,8 @@ ops_base[0x39] = {"mnemonic": "ADD HL, SP", "handler": handlers_stack_manipulati
 # ADD SP, e8
 ops_base[0xE8] = {"mnemonic": "ADD SP, e8", "handler": handlers_stack_manipulation.add_sp_e8, "length": 2, "cycles": 16}
 
+# INC/DEC SP
+ops_base[0x33] = {"mnemonic": "INC SP", "handler": handlers_stack_manipulation.inc_sp, "length": 1, "cycles": 8}
+ops_base[0x3B] = {"mnemonic": "DEC SP", "handler": handlers_stack_manipulation.dec_sp, "length": 1, "cycles": 8}
 
 

@@ -28,3 +28,10 @@ def add_sp_e8(cpu):
 
     cpu.SP = result
     cpu.set_flags(z=0, n=0, h=half_carry, c=carry)
+
+# INC/DEC SP
+def inc_sp(cpu):
+    cpu.SP = (cpu.SP + 1) & 0xFFFF
+
+def dec_sp(cpu):
+    cpu.SP = (cpu.SP - 1) & 0xFFFF
